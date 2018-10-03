@@ -63,6 +63,9 @@ dependencies {
     //FolioReader
     implementation 'com.folioreader:folioreader:0.4.4'
 
+    //react-native-fs
+    implementation project(':react-native-fs')
+
 }
 
 // Run this once to be able to run the application with BUCK
