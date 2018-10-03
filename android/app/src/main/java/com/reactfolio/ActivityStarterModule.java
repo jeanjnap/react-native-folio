@@ -31,6 +31,7 @@ class ActivityStarterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     void nativeFunction(String file) {
+        
         print(file);
     }
 
