@@ -9,9 +9,14 @@ import {
   NativeEventEmitter,
 } from 'react-native';
 
+var RNFS = require('react-native-fs');
+
 const activityStarter = NativeModules.ActivityStarter;
 const eventEmitter = new NativeEventEmitter(activityStarter);
 eventEmitter.addListener(activityStarter.MyEventName, (params) => titleAlert("params", params));
+
+var path = RNFS.DocumentDirectoryPath + '/';
+var file = "arquivo.epub"
 
 export default class App extends Component {
   constructor(props) {
@@ -24,12 +29,27 @@ export default class App extends Component {
   }
 
   _download = () => {
-    /*
+    
     this.setState({ status: "Baixando..." });
-    alert("Baixando: " + this.state.url);
+    /*alert("Baixando: " + this.state.url);
     */
 
-    activityStarter.nativeFunction("caminho");
+    RNFS.downloadFile(
+      {
+        fromUrl: this.state.url,
+        toFile: path + file
+      }
+    ).promise.then(res => {
+      this.setState({ status: "Abrindo..." });
+      activityStarter.nativeFunction(path + file);
+    }, error => {
+      this.setState({ status: "Erro no download" });
+      console.log(error);
+      
+      alert("Erro ao baixar o arquivo");
+    });
+
+    //activityStarter.nativeFunction("caminho");
   }
 
   render() {
